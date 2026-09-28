@@ -55,10 +55,18 @@ your Merge, so there is exactly one run to look at.
 make reset && make site-reset DEPLOY=ubuntu@3.91.195.25 && make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25 && make preflight
 ```
 
-Then, **in Devin cloud**, start the sessions you will show *finished* (this is what the audience never sees run to completion):
-`!palmtree_remediate` for `dep:PyYAML` × {telemetry-quality-checks, fleet-diagnostics-jobs} and for `dep:jsonwebtoken` ×
-{owner-portal-bff, charging-network-gateway}. (Equivalent from a terminal: `make kickoff ARGS="--campaign dep:PyYAML"` — the API
-path you *mention* as the GitLab/Jira integration, not what you type in the room.)
+Then, **in Devin cloud**, start the sessions you will show *finished*. **One new session per repo** (sidebar → New session, paste, Start,
+back to New session, repeat). Never send the second repo inside the first session; there is no "fork", fan-out is just N sessions:
+
+```
+!palmtree_remediate repo: gacerioni/palmtree-telemetry-quality-checks, campaign: dep:PyYAML
+!palmtree_remediate repo: gacerioni/palmtree-fleet-diagnostics-jobs, campaign: dep:PyYAML
+!palmtree_remediate repo: gacerioni/palmtree-owner-portal-bff, campaign: dep:jsonwebtoken
+!palmtree_remediate repo: gacerioni/palmtree-charging-network-gateway, campaign: dep:jsonwebtoken
+```
+
+(Equivalent from a terminal: `make kickoff ARGS="--campaign dep:PyYAML"` — the API path you *mention* as the GitLab/Jira integration,
+not what you type in the room.)
 
 When the 4 PRs are open (~15 min): `make refresh` → ~20 min later /ops/ shows sessions, PRs, before/after. Do not merge anything.
 Nobody else is in the loop: playbook ×4 → `make refresh` → done.
@@ -74,7 +82,7 @@ owner-portal-bff PR · owner-portal-bff Actions.
 | 1 | /ops/ | point at 156 / 24 / 29 campaigns | "Same CVE, many repos. Product Security triages this by hand today. The SLA is the CISO's, not the engineer's." |
 | 2 | Devin Wiki | open the wiki of one service; Ask: *"Where is YAML parsed across the Palm Tree repos, and which of those repos have no tests?"* | "Before Devin touches code it already knows the estate. This is the same answer a new hire takes two weeks to find." |
 | 4 | Devin Playbooks | open `Palm Tree appsec — remediate one campaign`; scroll the Forbidden Actions | "One playbook, written once. Scope, evidence, and what it must refuse to do." |
-| 5 | Devin new session | `!palmtree_remediate` → campaign `dep:snakeyaml`, repo `palmtree-ota-campaign-service`; start. Again for `palmtree-warranty-claims-api` (no tests, no owner) | "One session per repo, in parallel. Same playbook. This is the fan-out." |
+| 5 | Devin new session | New session → `!palmtree_remediate repo: gacerioni/palmtree-ota-campaign-service, campaign: dep:snakeyaml` → Start. New session again for `palmtree-warranty-claims-api` (no tests, no owner) | "One session per repo, in parallel. Same playbook. This is the fan-out." |
 | 6 | sessions list | the 2 spinning up + the 4 finished ones | "These four finished two hours ago. Let's look at one." |
 | 7–9 | finished PyYAML session (fleet-diagnostics-jobs) | plan → test written first (repo had none) → fix → rescan → PR. Scroll to what it left open / refused | "It wrote the test before the fix because the playbook says: no evidence, no PR. And it refused to widen scope." |
 | 10 | owner-portal-bff PR | CI `test` green; `security-gate` still red on *other* campaigns; Devin Review comments | "Red gate is honest: one campaign fixed, not all. The order comes from the SLA." |
