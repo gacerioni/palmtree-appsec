@@ -63,8 +63,31 @@ def refresh_session(session: dict) -> dict:
     return {**session, **fresh}
 
 
+def discover_sessions(repos: dict[str, dict]) -> None:
+    """Sessions started from the Devin UI (playbook) have no .demo-state file; find them by title."""
+    key = os.environ.get("DEVIN_API_KEY")
+    org = os.environ.get("DEVIN_ORG_ID")
+    missing = [n for n in repos if not (STATE / f"{n}.json").exists()]
+    if not (key and org and missing and (REPORT / "tests_after.txt").exists()):
+        return
+    req = urllib.request.Request(f"{API}/organizations/{org}/sessions?limit=50", headers={"Authorization": f"Bearer {key}"})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            items = json.loads(resp.read()).get("items", [])
+    except (urllib.error.URLError, json.JSONDecodeError, TimeoutError):
+        return
+    STATE.mkdir(exist_ok=True)
+    for s in items:  # newest first
+        title = s.get("title") or ""
+        for name in list(missing):
+            if title.startswith("[Palm Tree appsec]") and title.endswith(f": {name}"):
+                (STATE / f"{name}.json").write_text(json.dumps(s, indent=2))
+                missing.remove(name)
+
+
 def read_sessions(repos: dict[str, dict]) -> list[dict]:
     out = []
+    discover_sessions(repos)
     for name in repos:
         p = STATE / f"{name}.json"
         if not p.exists():

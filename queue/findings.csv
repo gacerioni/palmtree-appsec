@@ -68,6 +68,7 @@ owner-portal-bff,typescript,trivy,HIGH,dependency,CVE-2021-23337,lodash,4.17.15,
 owner-portal-bff,typescript,trivy,HIGH,dependency,CVE-2021-3749,axios,0.21.1,0.21.2,package-lock.json,,nodejs-axios: Regular expression denial of service in trim function
 owner-portal-bff,typescript,trivy,HIGH,dependency,CVE-2022-23539,jsonwebtoken,8.5.1,9.0.0,package-lock.json,,jsonwebtoken: Unrestricted key type could lead to legacy keys usagen
 owner-portal-bff,typescript,trivy,HIGH,dependency,CVE-2025-27152,axios,0.21.1,"1.8.2, 0.30.0",package-lock.json,,axios: Possible SSRF and Credential Leakage via Absolute URL in axios Requests
+owner-portal-bff,typescript,trivy,HIGH,dependency,CVE-2026-15074,@fastify/static,7.0.4,10.1.1,package-lock.json,,@fastify/static vulnerable to route guard bypass via path traversal
 owner-portal-bff,typescript,trivy,HIGH,dependency,CVE-2026-25223,fastify,4.29.1,5.7.2,package-lock.json,,Fastify: Fastify: Validation bypass due to malformed Content-Type header leading to integrity impact
 owner-portal-bff,typescript,trivy,HIGH,dependency,CVE-2026-25639,axios,0.21.1,"1.13.5, 0.30.3",package-lock.json,,axios: Axios affected by Denial of Service via __proto__ Key in mergeConfig
 owner-portal-bff,typescript,trivy,HIGH,dependency,CVE-2026-42033,axios,0.21.1,"1.15.1, 0.31.1",package-lock.json,,axios: Axios: HTTP Transport Hijacking via Prototype Pollution

@@ -7,7 +7,7 @@ the backdrop that proves the work is real. Rehearse end to end at least twice be
 
 | thing | baseline | how |
 |---|---|---|
-| 8 service repos, `main` | tag `demo-baseline` (155 findings, 24 critical, `security-gate` red) | `make reset` (closes `devin/*` PRs too) |
+| 8 service repos, `main` | tag `demo-baseline` (156 findings, 24 critical, `security-gate` red) | `make reset` (closes `devin/*` PRs too) |
 | https://cognition.platformengineer.io | `5.3.1-49e1a29 · stable`, no canary | `make site-reset DEPLOY=ubuntu@3.91.195.25` |
 | /ops/ Command Center | baseline numbers, 0 sessions | `make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25` |
 | Actions `release` | nothing waiting for approval | reject any pending `promote` |
@@ -37,7 +37,7 @@ owner-portal-bff PR · owner-portal-bff Actions.
 | min | where | you do | you say (EN) |
 |---|---|---|---|
 | 0 | site | scroll once; footer `v5.3.1-49e1a29 · stable` | "Owner portal of a fictional EV maker. Eight services behind it: Java, TypeScript, Python, Go. The company is fake; the CVEs are real." |
-| 1 | /ops/ | point at 155 / 24 / 28 campaigns | "Same CVE, many repos. Product Security triages this by hand today. The SLA is the CISO's, not the engineer's." |
+| 1 | /ops/ | point at 156 / 24 / 29 campaigns | "Same CVE, many repos. Product Security triages this by hand today. The SLA is the CISO's, not the engineer's." |
 | 2 | Devin Wiki | open the wiki of one service; Ask: *"Where is YAML parsed across the Palm Tree repos, and which of those repos have no tests?"* | "Before Devin touches code it already knows the estate. This is the same answer a new hire takes two weeks to find." |
 | 4 | Devin Playbooks | open `Palm Tree appsec — remediate one campaign`; scroll the Forbidden Actions | "One playbook, written once. Scope, evidence, and what it must refuse to do." |
 | 5 | Devin new session | `!palmtree_remediate` → campaign `dep:snakeyaml`, repo `palmtree-ota-campaign-service`; start. Again for `palmtree-warranty-claims-api` (no tests, no owner) | "One session per repo, in parallel. Same playbook. This is the fan-out." |
@@ -47,7 +47,7 @@ owner-portal-bff PR · owner-portal-bff Actions.
 | 11 | PR | **click Merge** | "A human merges. Always." |
 | 11–13 | Actions | `release`: build → GHCR → Trivy image gate → `canary`. Terminal: `for i in $(seq 20); do curl -s https://cognition.platformengineer.io/healthz; echo; done` (≈2 of 20 say `canary`) | "New image, scanned again as an artifact, ten percent of traffic, smoke pinned to the canary. Fails closed, rolls back by itself." |
 | 13 | Actions | `promote` waiting → **Approve** → site footer flips to the new tag | "The machine did the work; a human decides. That is what 'safe fix' means here, not a smaller number." |
-| 14 | /ops/ | before/after: 155 → 14x, PyYAML 4 → 0, jsonwebtoken 2 → 0 | "Velocity you can audit: per finding, a PR, a test, a scan, a deploy." |
+| 14 | /ops/ | before/after: 156 → 148, PyYAML 4 → 0, jsonwebtoken 2 → 0 | "Velocity you can audit: per finding, a PR, a test, a scan, a deploy." |
 
 Fallbacks: no Actions → run `./canary.sh <tag>` / `./promote.sh` by hand from the VM; no Devin cloud → the finished sessions
 are public URLs, the PRs and /ops/ already exist; no internet → screenshots in `report/` from the last `make after`.

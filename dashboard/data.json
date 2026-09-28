@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-26T15:16:02+00:00",
+  "generated_at": "2026-09-28T13:43:03+00:00",
   "estate": {
     "name": "Palm Tree Motors",
     "org": "gacerioni",
@@ -27,14 +27,14 @@
     "HIGH": 30
   },
   "before": {
-    "total": 155,
+    "total": 156,
     "critical": 24,
-    "high": 131
+    "high": 132
   },
   "after": {
-    "total": 149,
+    "total": 148,
     "critical": 20,
-    "high": 129
+    "high": 128
   },
   "after_available": true,
   "campaigns": [
@@ -243,7 +243,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 2,
-      "after": 2,
+      "after": 0,
       "repos": [
         "charging-network-gateway",
         "owner-portal-bff"
@@ -516,6 +516,22 @@
       ]
     },
     {
+      "campaign": "dep:@fastify/static",
+      "kind": "dependency",
+      "severity": "HIGH",
+      "sla_days": 30,
+      "before": 1,
+      "after": 1,
+      "repos": [
+        "owner-portal-bff"
+      ],
+      "repos_without_tests": [],
+      "repos_without_owner": [],
+      "fixed_versions": [
+        "10.1.1"
+      ]
+    },
+    {
       "campaign": "code:palmtree-go-jwt-no-alg-check",
       "kind": "code",
       "severity": "HIGH",
@@ -660,7 +676,7 @@
       "tests": true,
       "owners": true,
       "before": {
-        "total": 19,
+        "total": 20,
         "critical": 0
       },
       "after": {
@@ -669,11 +685,32 @@
       },
       "tests_after": {
         "result": "pass",
-        "branch": "main",
-        "pr_url": ""
+        "branch": "devin/appsec-dep-jsonwebtoken",
+        "pr_url": "https://github.com/gacerioni/palmtree-owner-portal-bff/pull/4"
       },
-      "prs": [],
-      "session": null
+      "prs": [
+        {
+          "number": 4,
+          "title": "appsec(dep:jsonwebtoken): bump jsonwebtoken 8.5.1 \u2192 9.0.0 (CVE-2022-23539)",
+          "url": "https://github.com/gacerioni/palmtree-owner-portal-bff/pull/4",
+          "branch": "devin/appsec-dep-jsonwebtoken",
+          "checks": {
+            "test": "success",
+            "security-gate": "failure"
+          },
+          "review": "REVIEW_REQUIRED"
+        }
+      ],
+      "session": {
+        "repo": "owner-portal-bff",
+        "url": "https://app.devin.ai/sessions/cdaaa940e597412abaddfbba77e5d1cb",
+        "title": "[Palm Tree appsec] dep:jsonwebtoken: owner-portal-bff",
+        "status": "running",
+        "status_detail": "waiting_for_user",
+        "acus": 0.0,
+        "pull_requests": [],
+        "created_at": 1790602355
+      }
     },
     {
       "name": "charging-network-gateway",
@@ -685,16 +722,37 @@
         "critical": 1
       },
       "after": {
-        "total": 6,
+        "total": 5,
         "critical": 1
       },
       "tests_after": {
         "result": "pass",
-        "branch": "main",
-        "pr_url": ""
+        "branch": "devin/appsec-dep-jsonwebtoken",
+        "pr_url": "https://github.com/gacerioni/palmtree-charging-network-gateway/pull/1"
       },
-      "prs": [],
-      "session": null
+      "prs": [
+        {
+          "number": 1,
+          "title": "appsec(dep:jsonwebtoken): bump jsonwebtoken 8.5.1 \u2192 9.0.0 (CVE-2022-23539)",
+          "url": "https://github.com/gacerioni/palmtree-charging-network-gateway/pull/1",
+          "branch": "devin/appsec-dep-jsonwebtoken",
+          "checks": {
+            "test": "success",
+            "security-gate": "failure"
+          },
+          "review": "REVIEW_REQUIRED"
+        }
+      ],
+      "session": {
+        "repo": "charging-network-gateway",
+        "url": "https://app.devin.ai/sessions/999eb66974c447deba91a2bfcafd1bbf",
+        "title": "[Palm Tree appsec] dep:jsonwebtoken: charging-network-gateway",
+        "status": "running",
+        "status_detail": "waiting_for_user",
+        "acus": 0.0,
+        "pull_requests": [],
+        "created_at": 1790602356
+      }
     },
     {
       "name": "telemetry-quality-checks",
@@ -712,13 +770,13 @@
       "tests_after": {
         "result": "pass",
         "branch": "devin/appsec-dep-pyyaml",
-        "pr_url": "https://github.com/gacerioni/palmtree-telemetry-quality-checks/pull/1"
+        "pr_url": "https://github.com/gacerioni/palmtree-telemetry-quality-checks/pull/2"
       },
       "prs": [
         {
-          "number": 1,
-          "title": "appsec: bump PyYAML 5.3 -> 6.0 (CVE-2020-1747, CVE-2020-14343), use yaml.safe_load",
-          "url": "https://github.com/gacerioni/palmtree-telemetry-quality-checks/pull/1",
+          "number": 2,
+          "title": "appsec(dep:PyYAML): bump PyYAML 5.3 -> 6.0.1, load rules with yaml.safe_load",
+          "url": "https://github.com/gacerioni/palmtree-telemetry-quality-checks/pull/2",
           "branch": "devin/appsec-dep-pyyaml",
           "checks": {
             "test": "success",
@@ -729,13 +787,13 @@
       ],
       "session": {
         "repo": "telemetry-quality-checks",
-        "url": "https://app.devin.ai/sessions/f23be023f7aa4cc78550b1edd9775fbf",
-        "title": "[Halcyon appsec] dep:PyYAML: telemetry-quality-checks",
-        "status": "suspended",
-        "status_detail": "inactivity",
+        "url": "https://app.devin.ai/sessions/438b4efff0b54e379909c6952e59d135",
+        "title": "[Palm Tree appsec] dep:PyYAML: telemetry-quality-checks",
+        "status": "running",
+        "status_detail": "waiting_for_user",
         "acus": 0.0,
         "pull_requests": [],
-        "created_at": 1790351400
+        "created_at": 1790602354
       }
     },
     {
@@ -754,13 +812,13 @@
       "tests_after": {
         "result": "pass",
         "branch": "devin/appsec-dep-pyyaml",
-        "pr_url": "https://github.com/gacerioni/palmtree-fleet-diagnostics-jobs/pull/1"
+        "pr_url": "https://github.com/gacerioni/palmtree-fleet-diagnostics-jobs/pull/2"
       },
       "prs": [
         {
-          "number": 1,
-          "title": "Remediate PyYAML CVEs in fleet diagnostics jobs",
-          "url": "https://github.com/gacerioni/palmtree-fleet-diagnostics-jobs/pull/1",
+          "number": 2,
+          "title": "appsec(dep:PyYAML): bump PyYAML 5.3 \u2192 6.0, use yaml.safe_load",
+          "url": "https://github.com/gacerioni/palmtree-fleet-diagnostics-jobs/pull/2",
           "branch": "devin/appsec-dep-pyyaml",
           "checks": {
             "test": "success",
@@ -771,13 +829,13 @@
       ],
       "session": {
         "repo": "fleet-diagnostics-jobs",
-        "url": "https://app.devin.ai/sessions/c4b8d4af9caa4a128d6c393e04eff796",
-        "title": "[Halcyon appsec] dep:PyYAML: fleet-diagnostics-jobs",
-        "status": "suspended",
-        "status_detail": "inactivity",
+        "url": "https://app.devin.ai/sessions/de063a32c4f843c3a21c23534c6fb984",
+        "title": "[Palm Tree appsec] dep:PyYAML: fleet-diagnostics-jobs",
+        "status": "running",
+        "status_detail": "waiting_for_user",
         "acus": 0.0,
         "pull_requests": [],
-        "created_at": 1790351399
+        "created_at": 1790602354
       }
     },
     {
@@ -825,24 +883,44 @@
   ],
   "sessions": [
     {
-      "repo": "telemetry-quality-checks",
-      "url": "https://app.devin.ai/sessions/f23be023f7aa4cc78550b1edd9775fbf",
-      "title": "[Halcyon appsec] dep:PyYAML: telemetry-quality-checks",
-      "status": "suspended",
-      "status_detail": "inactivity",
+      "repo": "owner-portal-bff",
+      "url": "https://app.devin.ai/sessions/cdaaa940e597412abaddfbba77e5d1cb",
+      "title": "[Palm Tree appsec] dep:jsonwebtoken: owner-portal-bff",
+      "status": "running",
+      "status_detail": "waiting_for_user",
       "acus": 0.0,
       "pull_requests": [],
-      "created_at": 1790351400
+      "created_at": 1790602355
+    },
+    {
+      "repo": "charging-network-gateway",
+      "url": "https://app.devin.ai/sessions/999eb66974c447deba91a2bfcafd1bbf",
+      "title": "[Palm Tree appsec] dep:jsonwebtoken: charging-network-gateway",
+      "status": "running",
+      "status_detail": "waiting_for_user",
+      "acus": 0.0,
+      "pull_requests": [],
+      "created_at": 1790602356
+    },
+    {
+      "repo": "telemetry-quality-checks",
+      "url": "https://app.devin.ai/sessions/438b4efff0b54e379909c6952e59d135",
+      "title": "[Palm Tree appsec] dep:PyYAML: telemetry-quality-checks",
+      "status": "running",
+      "status_detail": "waiting_for_user",
+      "acus": 0.0,
+      "pull_requests": [],
+      "created_at": 1790602354
     },
     {
       "repo": "fleet-diagnostics-jobs",
-      "url": "https://app.devin.ai/sessions/c4b8d4af9caa4a128d6c393e04eff796",
-      "title": "[Halcyon appsec] dep:PyYAML: fleet-diagnostics-jobs",
-      "status": "suspended",
-      "status_detail": "inactivity",
+      "url": "https://app.devin.ai/sessions/de063a32c4f843c3a21c23534c6fb984",
+      "title": "[Palm Tree appsec] dep:PyYAML: fleet-diagnostics-jobs",
+      "status": "running",
+      "status_detail": "waiting_for_user",
       "acus": 0.0,
       "pull_requests": [],
-      "created_at": 1790351399
+      "created_at": 1790602354
     }
   ],
   "acus_total": 0,

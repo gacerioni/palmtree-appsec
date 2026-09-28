@@ -31,7 +31,7 @@ rerun tests + scanners on PR heads   tools/after.sh     -> report/report.md, rep
 | palmtree-vin-registry-service | Go 1.22 / SQLite | yes | yes | dgrijalva/jwt-go, x/crypto 0.14, SQL string concatenation |
 | palmtree-service-appointments-api | Go 1.22 | partial | none | jwt-go without signing-method check, x/text 0.3.7 |
 
-Baseline scan: 155 CRITICAL+HIGH findings (24 critical), 28 campaigns. The largest campaign
+Baseline scan: 156 CRITICAL+HIGH findings (24 critical), 29 campaigns. The largest campaign
 (`dep:spring-boot`, 72 findings) is two repos and one version bump. See `queue/`.
 
 `rules/palmtree-appsec.yml` holds the custom Semgrep rules the security team wrote for the code-level

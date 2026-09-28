@@ -606,6 +606,24 @@
     ]
   },
   {
+    "campaign": "dep:@fastify/static",
+    "kind": "dependency",
+    "severity": "HIGH",
+    "sla_days": 30,
+    "findings": 1,
+    "repos": [
+      "owner-portal-bff"
+    ],
+    "repos_without_tests": [],
+    "repos_without_owner": [],
+    "ids": [
+      "CVE-2026-15074"
+    ],
+    "fixed_versions": [
+      "10.1.1"
+    ]
+  },
+  {
     "campaign": "code:palmtree-go-jwt-no-alg-check",
     "kind": "code",
     "severity": "HIGH",
