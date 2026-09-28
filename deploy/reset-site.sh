@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Put the demo host back to the baseline release: no canary, stable = BASELINE_TAG, 100% traffic.
-#   ./reset-site.sh 5.3.1-49e1a29
+#   ./reset-site.sh 5.3.1-b9a66c9
 set -euo pipefail
 cd "$(dirname "$0")"
 TAG="${1:?usage: reset-site.sh <baseline-image-tag>}"
