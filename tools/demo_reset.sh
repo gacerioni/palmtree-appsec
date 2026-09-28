@@ -15,7 +15,7 @@ for name in $(python3 -c "import yaml;print(' '.join(r['name'] for r in yaml.saf
     gh pr close --repo "$ORG/$repo" "$pr" --comment "demo reset" --delete-branch >/dev/null && echo "$repo: closed PR #$pr"
   done
   for br in $(git -C "$dir" branch -r --list 'origin/devin/*' | sed 's#origin/##'); do
-    git -C "$dir" push -q origin --delete "$br" && echo "$repo: deleted $br"
+    git -C "$dir" push -q origin --delete "$br" 2>/dev/null && echo "$repo: deleted $br" || true
   done
   git -C "$dir" checkout -q main
   git -C "$dir" reset -q --hard demo-baseline
