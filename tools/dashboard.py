@@ -70,6 +70,10 @@ def discover_sessions(repos: dict[str, dict]) -> None:
     missing = [n for n in repos if not (STATE / f"{n}.json").exists()]
     if not (key and org and missing and (REPORT / "tests_after.txt").exists()):
         return
+    with_pr = {line.split(",")[0] for line in (REPORT / "tests_after.txt").read_text().splitlines() if line.count(",") >= 3 and line.split(",")[3]}
+    missing = [n for n in missing if n in with_pr]
+    if not missing:
+        return
     req = urllib.request.Request(f"{API}/organizations/{org}/sessions?limit=50", headers={"Authorization": f"Bearer {key}"})
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:

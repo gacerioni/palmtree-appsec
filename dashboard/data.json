@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T13:43:03+00:00",
+  "generated_at": "2026-09-28T15:07:30+00:00",
   "estate": {
     "name": "Palm Tree Motors",
     "org": "gacerioni",
@@ -32,11 +32,11 @@
     "high": 132
   },
   "after": {
-    "total": 148,
-    "critical": 20,
-    "high": 128
+    "total": null,
+    "critical": null,
+    "high": null
   },
-  "after_available": true,
+  "after_available": false,
   "campaigns": [
     {
       "campaign": "dep:spring-boot",
@@ -44,7 +44,7 @@
       "severity": "CRITICAL",
       "sla_days": 15,
       "before": 72,
-      "after": 72,
+      "after": null,
       "repos": [
         "ota-campaign-service",
         "warranty-claims-api"
@@ -95,7 +95,7 @@
       "severity": "CRITICAL",
       "sla_days": 15,
       "before": 4,
-      "after": 0,
+      "after": null,
       "repos": [
         "fleet-diagnostics-jobs",
         "telemetry-quality-checks"
@@ -117,7 +117,7 @@
       "severity": "CRITICAL",
       "sla_days": 15,
       "before": 3,
-      "after": 3,
+      "after": null,
       "repos": [
         "warranty-claims-api"
       ],
@@ -139,7 +139,7 @@
       "severity": "CRITICAL",
       "sla_days": 15,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "charging-network-gateway"
       ],
@@ -159,7 +159,7 @@
       "severity": "CRITICAL",
       "sla_days": 15,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "ota-campaign-service"
       ],
@@ -175,7 +175,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 10,
-      "after": 10,
+      "after": null,
       "repos": [
         "ota-campaign-service",
         "warranty-claims-api"
@@ -202,7 +202,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 4,
-      "after": 4,
+      "after": null,
       "repos": [
         "charging-network-gateway",
         "owner-portal-bff"
@@ -224,7 +224,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 2,
-      "after": 2,
+      "after": null,
       "repos": [
         "charging-network-gateway",
         "owner-portal-bff"
@@ -243,7 +243,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 2,
-      "after": 0,
+      "after": null,
       "repos": [
         "charging-network-gateway",
         "owner-portal-bff"
@@ -264,7 +264,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 2,
-      "after": 0,
+      "after": null,
       "repos": [
         "fleet-diagnostics-jobs",
         "telemetry-quality-checks"
@@ -283,7 +283,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 2,
-      "after": 2,
+      "after": null,
       "repos": [
         "ota-campaign-service",
         "warranty-claims-api"
@@ -302,7 +302,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 2,
-      "after": 2,
+      "after": null,
       "repos": [
         "ota-campaign-service",
         "warranty-claims-api"
@@ -323,7 +323,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 13,
-      "after": 13,
+      "after": null,
       "repos": [
         "vin-registry-service"
       ],
@@ -343,7 +343,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 11,
-      "after": 11,
+      "after": null,
       "repos": [
         "owner-portal-bff"
       ],
@@ -364,7 +364,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 6,
-      "after": 6,
+      "after": null,
       "repos": [
         "fleet-diagnostics-jobs"
       ],
@@ -388,7 +388,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 4,
-      "after": 4,
+      "after": null,
       "repos": [
         "fleet-diagnostics-jobs"
       ],
@@ -411,7 +411,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 4,
-      "after": 4,
+      "after": null,
       "repos": [
         "owner-portal-bff"
       ],
@@ -430,7 +430,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 2,
-      "after": 2,
+      "after": null,
       "repos": [
         "service-appointments-api"
       ],
@@ -451,7 +451,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "charging-network-gateway"
       ],
@@ -471,7 +471,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "fleet-diagnostics-jobs"
       ],
@@ -489,7 +489,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "ota-campaign-service"
       ],
@@ -505,7 +505,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "ota-campaign-service"
       ],
@@ -521,7 +521,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "owner-portal-bff"
       ],
@@ -537,7 +537,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "service-appointments-api"
       ],
@@ -555,7 +555,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "telemetry-quality-checks"
       ],
@@ -569,7 +569,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "vin-registry-service"
       ],
@@ -583,7 +583,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "vin-registry-service"
       ],
@@ -597,7 +597,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "vin-registry-service"
       ],
@@ -613,7 +613,7 @@
       "severity": "HIGH",
       "sla_days": 30,
       "before": 1,
-      "after": 1,
+      "after": null,
       "repos": [
         "warranty-claims-api"
       ],
@@ -638,14 +638,10 @@
         "critical": 8
       },
       "after": {
-        "total": 43,
-        "critical": 8
+        "total": null,
+        "critical": null
       },
-      "tests_after": {
-        "result": "pass",
-        "branch": "main",
-        "pr_url": ""
-      },
+      "tests_after": null,
       "prs": [],
       "session": null
     },
@@ -659,14 +655,10 @@
         "critical": 11
       },
       "after": {
-        "total": 50,
-        "critical": 11
+        "total": null,
+        "critical": null
       },
-      "tests_after": {
-        "result": "pass",
-        "branch": "main",
-        "pr_url": ""
-      },
+      "tests_after": null,
       "prs": [],
       "session": null
     },
@@ -680,37 +672,12 @@
         "critical": 0
       },
       "after": {
-        "total": 19,
-        "critical": 0
+        "total": null,
+        "critical": null
       },
-      "tests_after": {
-        "result": "pass",
-        "branch": "devin/appsec-dep-jsonwebtoken",
-        "pr_url": "https://github.com/gacerioni/palmtree-owner-portal-bff/pull/4"
-      },
-      "prs": [
-        {
-          "number": 4,
-          "title": "appsec(dep:jsonwebtoken): bump jsonwebtoken 8.5.1 \u2192 9.0.0 (CVE-2022-23539)",
-          "url": "https://github.com/gacerioni/palmtree-owner-portal-bff/pull/4",
-          "branch": "devin/appsec-dep-jsonwebtoken",
-          "checks": {
-            "test": "success",
-            "security-gate": "failure"
-          },
-          "review": "REVIEW_REQUIRED"
-        }
-      ],
-      "session": {
-        "repo": "owner-portal-bff",
-        "url": "https://app.devin.ai/sessions/cdaaa940e597412abaddfbba77e5d1cb",
-        "title": "[Palm Tree appsec] dep:jsonwebtoken: owner-portal-bff",
-        "status": "running",
-        "status_detail": "waiting_for_user",
-        "acus": 0.0,
-        "pull_requests": [],
-        "created_at": 1790602355
-      }
+      "tests_after": null,
+      "prs": [],
+      "session": null
     },
     {
       "name": "charging-network-gateway",
@@ -722,37 +689,12 @@
         "critical": 1
       },
       "after": {
-        "total": 5,
-        "critical": 1
+        "total": null,
+        "critical": null
       },
-      "tests_after": {
-        "result": "pass",
-        "branch": "devin/appsec-dep-jsonwebtoken",
-        "pr_url": "https://github.com/gacerioni/palmtree-charging-network-gateway/pull/1"
-      },
-      "prs": [
-        {
-          "number": 1,
-          "title": "appsec(dep:jsonwebtoken): bump jsonwebtoken 8.5.1 \u2192 9.0.0 (CVE-2022-23539)",
-          "url": "https://github.com/gacerioni/palmtree-charging-network-gateway/pull/1",
-          "branch": "devin/appsec-dep-jsonwebtoken",
-          "checks": {
-            "test": "success",
-            "security-gate": "failure"
-          },
-          "review": "REVIEW_REQUIRED"
-        }
-      ],
-      "session": {
-        "repo": "charging-network-gateway",
-        "url": "https://app.devin.ai/sessions/999eb66974c447deba91a2bfcafd1bbf",
-        "title": "[Palm Tree appsec] dep:jsonwebtoken: charging-network-gateway",
-        "status": "running",
-        "status_detail": "waiting_for_user",
-        "acus": 0.0,
-        "pull_requests": [],
-        "created_at": 1790602356
-      }
+      "tests_after": null,
+      "prs": [],
+      "session": null
     },
     {
       "name": "telemetry-quality-checks",
@@ -764,37 +706,12 @@
         "critical": 2
       },
       "after": {
-        "total": 1,
-        "critical": 0
+        "total": null,
+        "critical": null
       },
-      "tests_after": {
-        "result": "pass",
-        "branch": "devin/appsec-dep-pyyaml",
-        "pr_url": "https://github.com/gacerioni/palmtree-telemetry-quality-checks/pull/2"
-      },
-      "prs": [
-        {
-          "number": 2,
-          "title": "appsec(dep:PyYAML): bump PyYAML 5.3 -> 6.0.1, load rules with yaml.safe_load",
-          "url": "https://github.com/gacerioni/palmtree-telemetry-quality-checks/pull/2",
-          "branch": "devin/appsec-dep-pyyaml",
-          "checks": {
-            "test": "success",
-            "security-gate": "failure"
-          },
-          "review": "REVIEW_REQUIRED"
-        }
-      ],
-      "session": {
-        "repo": "telemetry-quality-checks",
-        "url": "https://app.devin.ai/sessions/438b4efff0b54e379909c6952e59d135",
-        "title": "[Palm Tree appsec] dep:PyYAML: telemetry-quality-checks",
-        "status": "running",
-        "status_detail": "waiting_for_user",
-        "acus": 0.0,
-        "pull_requests": [],
-        "created_at": 1790602354
-      }
+      "tests_after": null,
+      "prs": [],
+      "session": null
     },
     {
       "name": "fleet-diagnostics-jobs",
@@ -806,37 +723,12 @@
         "critical": 2
       },
       "after": {
-        "total": 11,
-        "critical": 0
+        "total": null,
+        "critical": null
       },
-      "tests_after": {
-        "result": "pass",
-        "branch": "devin/appsec-dep-pyyaml",
-        "pr_url": "https://github.com/gacerioni/palmtree-fleet-diagnostics-jobs/pull/2"
-      },
-      "prs": [
-        {
-          "number": 2,
-          "title": "appsec(dep:PyYAML): bump PyYAML 5.3 \u2192 6.0, use yaml.safe_load",
-          "url": "https://github.com/gacerioni/palmtree-fleet-diagnostics-jobs/pull/2",
-          "branch": "devin/appsec-dep-pyyaml",
-          "checks": {
-            "test": "success",
-            "security-gate": "failure"
-          },
-          "review": "REVIEW_REQUIRED"
-        }
-      ],
-      "session": {
-        "repo": "fleet-diagnostics-jobs",
-        "url": "https://app.devin.ai/sessions/de063a32c4f843c3a21c23534c6fb984",
-        "title": "[Palm Tree appsec] dep:PyYAML: fleet-diagnostics-jobs",
-        "status": "running",
-        "status_detail": "waiting_for_user",
-        "acus": 0.0,
-        "pull_requests": [],
-        "created_at": 1790602354
-      }
+      "tests_after": null,
+      "prs": [],
+      "session": null
     },
     {
       "name": "vin-registry-service",
@@ -848,14 +740,10 @@
         "critical": 0
       },
       "after": {
-        "total": 16,
-        "critical": 0
+        "total": null,
+        "critical": null
       },
-      "tests_after": {
-        "result": "pass",
-        "branch": "main",
-        "pr_url": ""
-      },
+      "tests_after": null,
       "prs": [],
       "session": null
     },
@@ -869,60 +757,15 @@
         "critical": 0
       },
       "after": {
-        "total": 3,
-        "critical": 0
+        "total": null,
+        "critical": null
       },
-      "tests_after": {
-        "result": "pass",
-        "branch": "main",
-        "pr_url": ""
-      },
+      "tests_after": null,
       "prs": [],
       "session": null
     }
   ],
-  "sessions": [
-    {
-      "repo": "owner-portal-bff",
-      "url": "https://app.devin.ai/sessions/cdaaa940e597412abaddfbba77e5d1cb",
-      "title": "[Palm Tree appsec] dep:jsonwebtoken: owner-portal-bff",
-      "status": "running",
-      "status_detail": "waiting_for_user",
-      "acus": 0.0,
-      "pull_requests": [],
-      "created_at": 1790602355
-    },
-    {
-      "repo": "charging-network-gateway",
-      "url": "https://app.devin.ai/sessions/999eb66974c447deba91a2bfcafd1bbf",
-      "title": "[Palm Tree appsec] dep:jsonwebtoken: charging-network-gateway",
-      "status": "running",
-      "status_detail": "waiting_for_user",
-      "acus": 0.0,
-      "pull_requests": [],
-      "created_at": 1790602356
-    },
-    {
-      "repo": "telemetry-quality-checks",
-      "url": "https://app.devin.ai/sessions/438b4efff0b54e379909c6952e59d135",
-      "title": "[Palm Tree appsec] dep:PyYAML: telemetry-quality-checks",
-      "status": "running",
-      "status_detail": "waiting_for_user",
-      "acus": 0.0,
-      "pull_requests": [],
-      "created_at": 1790602354
-    },
-    {
-      "repo": "fleet-diagnostics-jobs",
-      "url": "https://app.devin.ai/sessions/de063a32c4f843c3a21c23534c6fb984",
-      "title": "[Palm Tree appsec] dep:PyYAML: fleet-diagnostics-jobs",
-      "status": "running",
-      "status_detail": "waiting_for_user",
-      "acus": 0.0,
-      "pull_requests": [],
-      "created_at": 1790602354
-    }
-  ],
+  "sessions": [],
   "acus_total": 0,
   "disclaimer": "Palm Tree Motors is a fictional company. All findings are synthetic and planted for demonstration."
 }
