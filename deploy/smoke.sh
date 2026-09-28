@@ -12,7 +12,7 @@ echo "$hz" | grep -q "\"color\":\"$TARGET\"" || { echo "healthz color mismatch: 
 c "$BASE/" | grep -ci "palm tree" >/dev/null || { echo "homepage missing brand"; exit 1; }
 c -o /dev/null -w '%{http_code}' "$BASE/owner" | grep -q '^200$' || { echo "/owner not 200"; exit 1; }
 tok=$(c -X POST "$BASE/session" -H 'content-type: application/json' \
-  -d '{"ownerId":"smoke","vins":["PTM0000000000001"],"region":"NA"}' | sed -E 's/.*"token":"([^"]+)".*/\1/')
+  -d '{"ownerId":"smoke","vins":["50EA1TEA0RA000001"],"region":"NA"}' | sed -E 's/.*"token":"([^"]+)".*/\1/')
 [ -n "$tok" ] || { echo "no session token"; exit 1; }
-c "$BASE/vehicles/PTM0000000000001" -H "authorization: Bearer $tok" >/dev/null || { echo "vehicle summary failed"; exit 1; }
+c "$BASE/vehicles/50EA1TEA0RA000001" -H "authorization: Bearer $tok" >/dev/null || { echo "vehicle summary failed"; exit 1; }
 echo "✔ smoke ok: $TARGET $WANT"
