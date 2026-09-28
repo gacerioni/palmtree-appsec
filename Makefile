@@ -45,7 +45,7 @@ dashboard:
 	@$(PY) tools/dashboard.py
 
 ops-deploy: dashboard
-	@scp -rq dashboard/ $(DEPLOY):palmtree-appsec/ && ssh $(DEPLOY) "cd palmtree-appsec/deploy && docker compose up -d --build ops" && echo "ops deployed"
+	@scp -rq dashboard/ $(DEPLOY):palmtree-appsec/ && ssh $(DEPLOY) "cd palmtree-appsec/deploy && docker compose up -d --build ops && git checkout -q -- ../dashboard" && echo "ops deployed"
 
 reset:
 	@bash tools/demo_reset.sh
@@ -54,4 +54,4 @@ baseline:
 	@for r in $(REPOS); do git -C $$r tag -f demo-baseline main && git -C $$r push -q -f origin demo-baseline && echo "$$r: demo-baseline at $$(git -C $$r rev-parse --short main)"; done
 
 site-reset:
-	@ssh $(DEPLOY) "cd palmtree-appsec/deploy && git pull -q && ./reset-site.sh $(or $(TAG),5.3.1-49e1a29)"
+	@ssh $(DEPLOY) "cd palmtree-appsec/deploy && git checkout -q -- ../dashboard && git pull -q && ./reset-site.sh $(or $(TAG),5.3.1-49e1a29)"
