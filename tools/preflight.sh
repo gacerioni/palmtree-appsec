@@ -29,8 +29,9 @@ for r in $REPOS; do
   base=$(git -C "$r" rev-parse --short demo-baseline 2>/dev/null); head=$(git ls-remote -q "https://github.com/$ORG/$r" main | cut -c1-7)
   [ -n "$head" ] && [ "$head" = "$base" ] || bad "$r: origin/main $head != demo-baseline $base  → make reset"
 done
-waiting=$(gh run list -R "$ORG/palmtree-owner-portal-bff" --workflow release --json databaseId,status --jq '[.[] | select(.status=="waiting" or .status=="in_progress" or .status=="queued")] | length' 2>/dev/null || echo "?")
-[ "$waiting" = "0" ] && ok "no release run pending/waiting" || bad "$waiting release run(s) pending/waiting  → Actions → run → Cancel/Reject"
+pending=$(gh run list -R "$ORG/palmtree-owner-portal-bff" --workflow release -L 50 --json url,status --jq '.[] | select(.status=="waiting" or .status=="in_progress" or .status=="queued") | "\(.status) \(.url)"' 2>/dev/null)
+if [ -z "$pending" ]; then ok "no release run pending/waiting (owner-portal-bff is the only repo with a release workflow)"
+else while read -r line; do bad "release run $line  → open it → Review deployments → Reject (or Cancel workflow)"; done <<<"$pending"; fi
 [ $fail = 0 ] && ok "all 8 repos: no devin PRs, main == demo-baseline"
 
 echo
