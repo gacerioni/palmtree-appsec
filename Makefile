@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 PY := python3
 
-.PHONY: help clone scan triage prompt kickoff status after dashboard ops-deploy reset baseline
+.PHONY: help clone scan triage prompt kickoff status after dashboard ops-deploy reset baseline site-reset
 
 help:
 	@echo "make clone      clone the 8 palmtree-* service repos next to this Makefile"
@@ -14,6 +14,7 @@ help:
 	@echo "make dashboard  build dashboard/data.json (findings, campaigns, sessions, PRs) for the Remediation Command Center"
 	@echo "make ops-deploy scp dashboard/ to the demo VM and rebuild the ops container (DEPLOY=user@host)"
 	@echo "make reset      close devin PRs, delete devin branches, reset main to demo-baseline"
+	@echo "make site-reset  put the demo host back to the baseline release (DEPLOY=user@host TAG=5.3.1-49e1a29)"
 	@echo "make baseline   tag current main of every repo as demo-baseline (do once)"
 
 ORG := $(shell $(PY) -c "import yaml;print(yaml.safe_load(open('repos.yaml'))['github_org'])")
@@ -51,3 +52,6 @@ reset:
 
 baseline:
 	@for r in $(REPOS); do git -C $$r tag -f demo-baseline main && git -C $$r push -q -f origin demo-baseline && echo "$$r: demo-baseline at $$(git -C $$r rev-parse --short main)"; done
+
+site-reset:
+	@ssh $(DEPLOY) "cd palmtree-appsec/deploy && git pull -q && ./reset-site.sh $(or $(TAG),5.3.1-49e1a29)"
