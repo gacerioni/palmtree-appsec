@@ -1,7 +1,8 @@
 SHELL := /bin/bash
 PY := python3
+DEPLOY ?= ubuntu@3.91.195.25
 
-.PHONY: help preflight refresh clone scan triage prompt kickoff status after dashboard ops-deploy reset baseline site-reset
+.PHONY: help preflight refresh clone scan triage prompt kickoff status after dashboard ops-deploy reset repos-reset baseline site-reset
 
 help:
 	@echo "make clone      clone the 8 palmtree-* service repos next to this Makefile"
@@ -14,8 +15,9 @@ help:
 	@echo "make refresh    run 'after' in GitHub Actions and deploy /ops/ (no local toolchains needed; ~10 min)"
 	@echo "make dashboard  build dashboard/data.json (findings, campaigns, sessions, PRs) for the Remediation Command Center"
 	@echo "make ops-deploy scp dashboard/ to the demo VM and rebuild the ops container (DEPLOY=user@host)"
-	@echo "make reset      close devin PRs, delete devin branches, reset main to demo-baseline"
-	@echo "make site-reset  put the demo host back to the baseline release (DEPLOY=user@host TAG=5.3.1-b9a66c9)"
+	@echo "make reset      full baseline: repos (close devin PRs, main=demo-baseline) + site release + /ops/ (DEPLOY=user@host, default $(DEPLOY))"
+	@echo "make repos-reset only the 8 repos"
+	@echo "make site-reset  only the demo host release (TAG=5.3.1-b9a66c9)"
 	@echo "make preflight  check site, /ops/, PRs and release runs are at the clean baseline before a rehearsal/demo"
 	@echo "make baseline   tag current main of every repo as demo-baseline (do once)"
 
@@ -55,7 +57,10 @@ ops-deploy: dashboard
 preflight:
 	@bash tools/preflight.sh
 
-reset:
+reset: repos-reset site-reset ops-deploy
+	@echo "reset done; run make preflight"
+
+repos-reset:
 	@bash tools/demo_reset.sh
 
 baseline:

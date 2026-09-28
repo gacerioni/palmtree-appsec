@@ -12,7 +12,10 @@ git clone https://github.com/gacerioni/palmtree-appsec ~/palmtree && cd ~/palmtr
 make clone                                   # 8 palmtree-* repos as subfolders (never edit them by hand)
 gh auth status                               # must be gacerioni (make reset / preflight use gh)
 python3 -m pip install pyyaml
-export DEPLOY="-i ~/.ssh/<bastion-key>.pem ubuntu@3.91.195.25"   # put it in ~/.zshrc; every make target that touches the VM reads it
+# ~/.ssh/config, once, so ssh/scp find the key (DEPLOY defaults to ubuntu@3.91.195.25):
+#   Host 3.91.195.25
+#     User ubuntu
+#     IdentityFile ~/.ssh/<bastion-key>.pem
 make preflight
 ```
 
@@ -20,7 +23,7 @@ Optional: `DEVIN_API_KEY` + `DEVIN_ORG_ID` in the environment lets `make dashboa
 `make kickoff`. You never need `make after` locally: `make refresh` (or Actions → *Refresh Command Center* → Run workflow) does
 tests + scanners + before/after + /ops/ deploy in GitHub Actions, ~20 min, no toolchains on the Mac.
 
-Vocabulary: **reset** = put GitHub (8 repos, PRs) back to `demo-baseline`; **site-reset** = put the VM back to the baseline image;
+Vocabulary: **reset** = everything back to baseline: 8 repos/PRs (`repos-reset`), site release (`site-reset`) and /ops/ (`ops-deploy`);
 **preflight** = read-only check that everything is at baseline; **refresh** = rebuild /ops/ from the open PRs (runs in Actions);
 **kickoff** = API way to start sessions (you use the Devin UI instead).
 
@@ -28,13 +31,13 @@ Vocabulary: **reset** = put GitHub (8 repos, PRs) back to `demo-baseline`; **sit
 
 | thing | baseline | how |
 |---|---|---|
-| 8 service repos, `main` | tag `demo-baseline` (156 findings, 24 critical, `security-gate` red) | `make reset` (closes `devin/*` PRs too) |
-| https://cognition.platformengineer.io | `5.3.1-b9a66c9 · stable`, no canary | `make site-reset DEPLOY=ubuntu@3.91.195.25` |
-| /ops/ Command Center | baseline numbers, 0 sessions | `make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25` |
+| 8 service repos, `main` | tag `demo-baseline` (156 findings, 24 critical, `security-gate` red) | `make reset` (or `make repos-reset` alone) |
+| https://cognition.platformengineer.io | `5.3.1-b9a66c9 · stable`, no canary | part of `make reset` (`make site-reset` alone) |
+| /ops/ Command Center | baseline numbers, 0 sessions | part of `make reset` (`make ops-deploy` alone) |
 | Actions `release` | nothing waiting for approval | reject any pending `promote` |
 | Devin cloud | 8 repos indexed in Wiki; playbook `!palmtree_remediate` in the org | one-time setup, survives resets |
 
-`make reset` needs `gh` authenticated as gacerioni. It never touches `palmtree-appsec`, the VM, the wikis or the playbook.
+`make reset` needs `gh` authenticated as gacerioni and ssh access to the VM. It never touches `palmtree-appsec` on GitHub, the wikis or the playbook.
 
 **`make preflight`** checks all of the above in one go (site tag, no canary, /ops/ at baseline, no `devin/*` PRs, `main == demo-baseline`
 in the 8 repos, no `release` run waiting) and prints the fix for anything off. Run it before every rehearsal and on demo morning.
@@ -52,7 +55,7 @@ your Merge, so there is exactly one run to look at.
 ## T-2h — unattended
 
 ```bash
-make reset && make site-reset DEPLOY=ubuntu@3.91.195.25 && make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25 && make preflight
+make reset && make preflight
 ```
 
 Then, **in Devin cloud**, start the sessions you will show *finished*. **One new session per repo** (sidebar → New session, paste, Start,
@@ -97,16 +100,16 @@ are public URLs, the PRs and /ops/ already exist; no internet → screenshots in
 ## After each rehearsal
 
 ```bash
-make reset && make site-reset DEPLOY=ubuntu@3.91.195.25 && make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25 && make preflight
+make reset && make preflight
 ```
 
 Reject any `promote` still waiting in Actions. Wikis and the playbook stay.
 
 ## Things that bite
 
-* `make reset` force-pushes the 8 `main`s to `demo-baseline`; it does not trigger `release` (same commit as last push).
+* `make repos-reset` force-pushes the 8 `main`s to `demo-baseline`; it does not trigger `release` (same commit as last push).
 * `make baseline` re-tags; only after a deliberate change to a repo's main. Last: owner-portal-bff at `b9a66c9` (site + release workflow + release pill).
 * GHCR package is private: the VM is `docker login`ed. If that expires, `canary.sh` fails closed at pull; site stays 100% stable.
 * Required reviewer on `production` is gacerioni; approve from the run page or the GitHub mobile app.
-* Wiki indexing after `make reset` is a no-op (same tree). Adding a repo to the wiki live takes minutes: do it only as a gesture, never wait for it.
+* Wiki indexing after `make repos-reset` is a no-op (same tree). Adding a repo to the wiki live takes minutes: do it only as a gesture, never wait for it.
 * Budget per rehearsal: 4 sessions before + 1–2 live.
