@@ -18,7 +18,7 @@ make preflight
 
 Optional: `DEVIN_API_KEY` + `DEVIN_ORG_ID` in the environment lets `make dashboard` pick up the Devin sessions for /ops/ and enables
 `make kickoff`. You never need `make after` locally: `make refresh` (or Actions → *Refresh Command Center* → Run workflow) does
-tests + scanners + before/after + /ops/ deploy in GitHub Actions, ~10 min, no toolchains on the Mac.
+tests + scanners + before/after + /ops/ deploy in GitHub Actions, ~20 min, no toolchains on the Mac.
 
 Vocabulary: **reset** = put GitHub (8 repos, PRs) back to `demo-baseline`; **site-reset** = put the VM back to the baseline image;
 **preflight** = read-only check that everything is at baseline; **refresh** = rebuild /ops/ from the open PRs (runs in Actions);
@@ -60,7 +60,7 @@ Then, **in Devin cloud**, start the sessions you will show *finished* (this is w
 {owner-portal-bff, charging-network-gateway}. (Equivalent from a terminal: `make kickoff ARGS="--campaign dep:PyYAML"` — the API
 path you *mention* as the GitLab/Jira integration, not what you type in the room.)
 
-When the 4 PRs are open (~15 min): `make refresh` → ~10 min later /ops/ shows sessions, PRs, before/after. Do not merge anything.
+When the 4 PRs are open (~15 min): `make refresh` → ~20 min later /ops/ shows sessions, PRs, before/after. Do not merge anything.
 Nobody else is in the loop: playbook ×4 → `make refresh` → done.
 
 Browser tabs, in order: Devin (sessions list) · Devin Wiki of `palmtree-appsec` · site · /ops/ · finished PyYAML session ·
