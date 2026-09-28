@@ -35,13 +35,13 @@ jobs:
           push: true
           tags: ${{ env.IMAGE }}:${{ steps.meta.outputs.tag }}
       - name: Trivy image scan (gate)
-        uses: aquasecurity/trivy-action@v0.33.1
-        with:
-          image-ref: ${{ env.IMAGE }}:${{ steps.meta.outputs.tag }}
-          severity: CRITICAL
-          ignore-unfixed: true
-          exit-code: "1"
-          format: table
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker run --rm -e TRIVY_USERNAME -e TRIVY_PASSWORD aquasec/trivy:0.65.0 image \
+            --severity CRITICAL --ignore-unfixed --exit-code 1 --format table \
+            "${IMAGE}:${{ steps.meta.outputs.tag }}"
 
   canary:
     needs: build
