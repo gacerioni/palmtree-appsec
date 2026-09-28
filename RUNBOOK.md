@@ -1,67 +1,70 @@
-# Palm Tree demo — runbook (reset → kickoff → PR → merge → canary → promote)
+# Palm Tree demo — runbook
 
-Everything below is idempotent. Run it end to end at least twice before Oct 5: once slow (learn it), once timed (≈12 min live).
+The star is **Devin cloud** (Wiki → Ask → Playbook → parallel sessions → Devin Review). The site, /ops/ and GitHub Actions are
+the backdrop that proves the work is real. Rehearse end to end at least twice before Oct 5: once slow, once timed (≈12 min live).
 
-## State you start every rehearsal from
+## Baseline (start of every rehearsal)
 
-| thing | baseline | how it gets there |
+| thing | baseline | how |
 |---|---|---|
-| 8 service repos, `main` | tag `demo-baseline` (155 findings, 24 critical, `security-gate` red) | `make reset` |
-| open `devin/*` PRs | none | `make reset` (closes + deletes branches) |
-| https://cognition.platformengineer.io | `5.3.1-49e1a29 · stable`, no canary | `ssh VM 'cd palmtree-appsec/deploy && ./reset-site.sh 5.3.1-49e1a29'` |
+| 8 service repos, `main` | tag `demo-baseline` (155 findings, 24 critical, `security-gate` red) | `make reset` (closes `devin/*` PRs too) |
+| https://cognition.platformengineer.io | `5.3.1-49e1a29 · stable`, no canary | `make site-reset DEPLOY=ubuntu@3.91.195.25` |
 | /ops/ Command Center | baseline numbers, 0 sessions | `make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25` |
-| GitHub Actions `release` | none waiting for approval | reject/approve any pending `promote` in the Actions tab |
+| Actions `release` | nothing waiting for approval | reject any pending `promote` |
+| Devin cloud | 8 repos indexed in Wiki; playbook `!palmtree_remediate` in the org | one-time setup, survives resets |
 
-`make reset` needs `gh` authenticated as gacerioni on your laptop (`gh auth status`). It never touches `palmtree-appsec`.
+`make reset` needs `gh` authenticated as gacerioni. It never touches `palmtree-appsec`, the VM, the wikis or the playbook.
 
-## T-2h (before the room) — the slow part runs unattended
-
-```bash
-cd ~/repos/palmtree            # or wherever palmtree-appsec is cloned, with the 8 repos next to it (make clone)
-make reset
-ssh ubuntu@3.91.195.25 'cd palmtree-appsec/deploy && ./reset-site.sh 5.3.1-49e1a29'
-make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25
-make kickoff ARGS="--campaign dep:PyYAML"        # 2 sessions, the ones you will *show finished*
-make kickoff ARGS="--campaign dep:jsonwebtoken"  # 2 sessions: owner-portal-bff + charging-network-gateway (the one you merge live)
-```
-
-Sessions take 10–25 min. When the PRs are open: `make status`, then `make after` (reruns tests + scanners on each PR head) and
-`make dashboard && make ops-deploy DEPLOY=…` so /ops/ already shows sessions, PRs and before/after. Do **not** merge anything yet.
-
-Keep one browser window with tabs, in this order: site · /ops/ · Devin sessions list · the finished PyYAML session · the
-owner-portal-bff PR · Actions tab of owner-portal-bff.
-
-## Live (10–15 min inside the 45)
-
-| min | you do | you say (EN) |
-|---|---|---|
-| 0 | site tab; scroll once; footer shows `v5.3.1-49e1a29 · stable` | "This is the owner portal. Behind it, eight services in Java, TypeScript, Python and Go. It's fictional, but the vulnerabilities are real CVEs." |
-| 1 | /ops/ tab | "155 critical and high findings, grouped into 28 campaigns. Same CVE, many repos. Your product-security team triages this by hand today." |
-| 2 | `make kickoff ARGS="--campaign dep:lodash"` in a terminal (1 session) — the *starting* one | "One playbook, one campaign, N repos. Devin gets a session per repo, in parallel." |
-| 3 | Devin sessions list: the new one spinning up + the 4 finished ones | "These finished two hours ago. Let's look at one." |
-| 4–6 | finished PyYAML session: plan → test written first (repo had none) → fix → scanner rerun → PR. Show what it refused to touch | "It wrote the test before the fix, because the playbook says: no evidence, no PR. And it refused to widen scope." |
-| 7 | owner-portal-bff PR (jsonwebtoken): CI `test` green, `security-gate` still red on *other* findings; Devin Review comments | "The gate is red because we fixed one campaign, not all. That's honest. The CISO's SLA decides the order." |
-| 8 | **click Merge** | "A human merges. Always." |
-| 8–11 | Actions tab: `release` → build → GHCR → Trivy image gate → `canary` job. Meanwhile: `for i in $(seq 20); do curl -s https://cognition.platformengineer.io/healthz; echo; done` shows ~2 of 20 `canary` | "New image, scanned again as an artifact, ten percent of traffic, smoke test pinned to the canary. If anything fails it rolls back on its own." |
-| 11 | `promote` waiting → **click Approve** → footer flips to the new tag | "The machine did the work; a human decides. That's the fix being safe, not just the count going down." |
-| 12 | /ops/ before/after: 155 → 14x, PyYAML 4 → 0, jsonwebtoken 2 → 0 | "Velocity you can audit: PR, test, scan, deploy, per finding." |
-
-Fallbacks (no network, Actions slow): the canary/promo can be done by hand from the VM (`./canary.sh <tag>`, `./promote.sh`),
-and the finished sessions + PRs + /ops/ are already there. Screenshots/video of a full run live in `report/` after `make after`.
-
-## After the room / after each rehearsal
+## T-2h — unattended
 
 ```bash
-make reset
-ssh ubuntu@3.91.195.25 'cd palmtree-appsec/deploy && ./reset-site.sh 5.3.1-49e1a29'
+make reset && make site-reset DEPLOY=ubuntu@3.91.195.25 && make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25
 ```
 
-If the live merge went through, the new image tag exists in GHCR; `reset-site.sh` puts stable back to the baseline tag anyway.
+Then, **in Devin cloud**, start the sessions you will show *finished* (this is what the audience never sees run to completion):
+`!palmtree_remediate` for `dep:PyYAML` × {telemetry-quality-checks, fleet-diagnostics-jobs} and for `dep:jsonwebtoken` ×
+{owner-portal-bff, charging-network-gateway}. (Equivalent from a terminal: `make kickoff ARGS="--campaign dep:PyYAML"` — the API
+path you *mention* as the GitLab/Jira integration, not what you type in the room.)
+
+When the 4 PRs are open: `make after && make dashboard && make ops-deploy DEPLOY=…` so /ops/ shows sessions, PRs, before/after.
+Do not merge anything.
+
+Browser tabs, in order: Devin (sessions list) · Devin Wiki of `palmtree-appsec` · site · /ops/ · finished PyYAML session ·
+owner-portal-bff PR · owner-portal-bff Actions.
+
+## Live (10–15 min of the 45)
+
+| min | where | you do | you say (EN) |
+|---|---|---|---|
+| 0 | site | scroll once; footer `v5.3.1-49e1a29 · stable` | "Owner portal of a fictional EV maker. Eight services behind it: Java, TypeScript, Python, Go. The company is fake; the CVEs are real." |
+| 1 | /ops/ | point at 155 / 24 / 28 campaigns | "Same CVE, many repos. Product Security triages this by hand today. The SLA is the CISO's, not the engineer's." |
+| 2 | Devin Wiki | open the wiki of one service; Ask: *"Where is YAML parsed across the Palm Tree repos, and which of those repos have no tests?"* | "Before Devin touches code it already knows the estate. This is the same answer a new hire takes two weeks to find." |
+| 4 | Devin Playbooks | open `Palm Tree appsec — remediate one campaign`; scroll the Forbidden Actions | "One playbook, written once. Scope, evidence, and what it must refuse to do." |
+| 5 | Devin new session | `!palmtree_remediate` → campaign `dep:snakeyaml`, repo `palmtree-ota-campaign-service`; start. Again for `palmtree-warranty-claims-api` (no tests, no owner) | "One session per repo, in parallel. Same playbook. This is the fan-out." |
+| 6 | sessions list | the 2 spinning up + the 4 finished ones | "These four finished two hours ago. Let's look at one." |
+| 7–9 | finished PyYAML session (fleet-diagnostics-jobs) | plan → test written first (repo had none) → fix → rescan → PR. Scroll to what it left open / refused | "It wrote the test before the fix because the playbook says: no evidence, no PR. And it refused to widen scope." |
+| 10 | owner-portal-bff PR | CI `test` green; `security-gate` still red on *other* campaigns; Devin Review comments | "Red gate is honest: one campaign fixed, not all. The order comes from the SLA." |
+| 11 | PR | **click Merge** | "A human merges. Always." |
+| 11–13 | Actions | `release`: build → GHCR → Trivy image gate → `canary`. Terminal: `for i in $(seq 20); do curl -s https://cognition.platformengineer.io/healthz; echo; done` (≈2 of 20 say `canary`) | "New image, scanned again as an artifact, ten percent of traffic, smoke pinned to the canary. Fails closed, rolls back by itself." |
+| 13 | Actions | `promote` waiting → **Approve** → site footer flips to the new tag | "The machine did the work; a human decides. That is what 'safe fix' means here, not a smaller number." |
+| 14 | /ops/ | before/after: 155 → 14x, PyYAML 4 → 0, jsonwebtoken 2 → 0 | "Velocity you can audit: per finding, a PR, a test, a scan, a deploy." |
+
+Fallbacks: no Actions → run `./canary.sh <tag>` / `./promote.sh` by hand from the VM; no Devin cloud → the finished sessions
+are public URLs, the PRs and /ops/ already exist; no internet → screenshots in `report/` from the last `make after`.
+
+## After each rehearsal
+
+```bash
+make reset && make site-reset DEPLOY=ubuntu@3.91.195.25 && make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25
+```
+
+Reject any `promote` still waiting in Actions. Wikis and the playbook stay.
 
 ## Things that bite
 
-* `make reset` force-pushes `main` of the 8 repos to `demo-baseline`; that does not trigger `release` (same commit as the last push).
-* Re-tag the baseline (`make baseline`) only after a deliberate change to a repo's main. Last re-tag: owner-portal-bff at `49e1a29` (site + release workflow).
-* GHCR package is private today: the VM is `docker login`ed. If the login expires, `docker pull` fails inside `canary.sh` → fails closed, 100% stable.
-* Required reviewer on `production` is gacerioni; approve from the Actions run page or the GitHub mobile app.
-* Budget: every rehearsal = 4–5 Devin sessions (2 PyYAML + 2 jsonwebtoken + 1 live). `--all` is 8.
+* `make reset` force-pushes the 8 `main`s to `demo-baseline`; it does not trigger `release` (same commit as last push).
+* `make baseline` re-tags; only after a deliberate change to a repo's main. Last: owner-portal-bff at `49e1a29` (site + release workflow).
+* GHCR package is private: the VM is `docker login`ed. If that expires, `canary.sh` fails closed at pull; site stays 100% stable.
+* Required reviewer on `production` is gacerioni; approve from the run page or the GitHub mobile app.
+* Wiki indexing after `make reset` is a no-op (same tree). Adding a repo to the wiki live takes minutes: do it only as a gesture, never wait for it.
+* Budget per rehearsal: 4 sessions before + 1–2 live.
