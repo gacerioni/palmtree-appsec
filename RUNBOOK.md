@@ -3,6 +3,26 @@
 The star is **Devin cloud** (Wiki → Ask → Playbook → parallel sessions → Devin Review). The site, /ops/ and GitHub Actions are
 the backdrop that proves the work is real. Rehearse end to end at least twice before Oct 5: once slow, once timed (≈12 min live).
 
+## Laptop setup (once)
+
+Everything runs from one directory: this repo is the cockpit, the 8 service repos are subfolders of it.
+
+```bash
+git clone https://github.com/gacerioni/palmtree-appsec ~/palmtree && cd ~/palmtree
+make clone                                   # 8 palmtree-* repos as subfolders (never edit them by hand)
+gh auth status                               # must be gacerioni (make reset / preflight use gh)
+python3 -m pip install pyyaml
+export DEPLOY="-i ~/.ssh/<bastion-key>.pem ubuntu@3.91.195.25"   # put it in ~/.zshrc; every make target that touches the VM reads it
+make preflight
+```
+
+Optional: `DEVIN_API_KEY` + `DEVIN_ORG_ID` in the environment lets `make dashboard` pick up the Devin sessions for /ops/ and enables
+`make kickoff`. `make after` additionally needs trivy, semgrep, node, python, go and maven locally — if you'd rather not install
+those, ask Devin to run `make after && make dashboard && make ops-deploy` for you at T-2h.
+
+Vocabulary: **reset** = put GitHub (8 repos, PRs) back to `demo-baseline`; **site-reset** = put the VM back to the baseline image;
+**preflight** = read-only check that everything is at baseline; **kickoff** = API way to start sessions (you use the Devin UI instead).
+
 ## Baseline (start of every rehearsal)
 
 | thing | baseline | how |
