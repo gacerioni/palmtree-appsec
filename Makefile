@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 PY := python3
 
-.PHONY: help clone scan triage prompt kickoff status after dashboard ops-deploy reset baseline site-reset
+.PHONY: help preflight clone scan triage prompt kickoff status after dashboard ops-deploy reset baseline site-reset
 
 help:
 	@echo "make clone      clone the 8 palmtree-* service repos next to this Makefile"
@@ -15,6 +15,7 @@ help:
 	@echo "make ops-deploy scp dashboard/ to the demo VM and rebuild the ops container (DEPLOY=user@host)"
 	@echo "make reset      close devin PRs, delete devin branches, reset main to demo-baseline"
 	@echo "make site-reset  put the demo host back to the baseline release (DEPLOY=user@host TAG=5.3.1-b9a66c9)"
+	@echo "make preflight  check site, /ops/, PRs and release runs are at the clean baseline before a rehearsal/demo"
 	@echo "make baseline   tag current main of every repo as demo-baseline (do once)"
 
 ORG := $(shell $(PY) -c "import yaml;print(yaml.safe_load(open('repos.yaml'))['github_org'])")
@@ -46,6 +47,9 @@ dashboard:
 
 ops-deploy: dashboard
 	@scp -rq dashboard/ $(DEPLOY):palmtree-appsec/ && ssh $(DEPLOY) "cd palmtree-appsec/deploy && docker compose up -d --build ops && git checkout -q -- ../dashboard" && echo "ops deployed"
+
+preflight:
+	@bash tools/preflight.sh
 
 reset:
 	@bash tools/demo_reset.sh

@@ -15,10 +15,23 @@ the backdrop that proves the work is real. Rehearse end to end at least twice be
 
 `make reset` needs `gh` authenticated as gacerioni. It never touches `palmtree-appsec`, the VM, the wikis or the playbook.
 
+**`make preflight`** checks all of the above in one go (site tag, no canary, /ops/ at baseline, no `devin/*` PRs, `main == demo-baseline`
+in the 8 repos, no `release` run waiting) and prints the fix for anything off. Run it before every rehearsal and on demo morning.
+
+### Exactly what you click on GitHub, live
+
+1. **Merge** the `owner-portal-bff` PR (branch `devin/appsec-dep-jsonwebtoken`, title `appsec(dep:jsonwebtoken): …`; only the PR
+   number changes between rehearsals). PR checks: `test` green, `security-gate` red = other campaigns' findings, expected.
+2. Nothing. The merge alone starts **one** `release` run: build → GHCR → Trivy → canary 10% → smoke. Reload the site: pill turns amber `CANARY`.
+3. **Approve**: Actions → that run → *Review deployments* → `production` → Approve. Pill goes green `STABLE` on the new version.
+
+The other 3 PRs (PyYAML ×2, charging-network-gateway) have no site behind them: show, don't merge. Nobody pushes to `main` except
+your Merge, so there is exactly one run to look at.
+
 ## T-2h — unattended
 
 ```bash
-make reset && make site-reset DEPLOY=ubuntu@3.91.195.25 && make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25
+make reset && make site-reset DEPLOY=ubuntu@3.91.195.25 && make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25 && make preflight
 ```
 
 Then, **in Devin cloud**, start the sessions you will show *finished* (this is what the audience never sees run to completion):
@@ -55,7 +68,7 @@ are public URLs, the PRs and /ops/ already exist; no internet → screenshots in
 ## After each rehearsal
 
 ```bash
-make reset && make site-reset DEPLOY=ubuntu@3.91.195.25 && make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25
+make reset && make site-reset DEPLOY=ubuntu@3.91.195.25 && make dashboard && make ops-deploy DEPLOY=ubuntu@3.91.195.25 && make preflight
 ```
 
 Reject any `promote` still waiting in Actions. Wikis and the playbook stay.
