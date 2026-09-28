@@ -1,0 +1,46 @@
+# Refresh the Remediation Command Center (/ops/) without a laptop:
+# checks out every open devin/* PR, reruns tests + Trivy + Semgrep, builds the before/after, deploys to the demo VM.
+# Trigger: Actions → "Refresh Command Center" → Run workflow, or `make refresh`.
+# Secrets: DEPLOY_HOST, DEPLOY_USER, DEPLOY_SSH_KEY, DEVIN_API_KEY, DEVIN_ORG_ID.
+name: Refresh Command Center
+
+on:
+  workflow_dispatch:
+
+concurrency: refresh-ops
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17", cache: maven }
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - uses: actions/setup-go@v5
+        with: { go-version: "1.22", cache: false }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Install scanners
+        run: |
+          pip install -q pyyaml semgrep==1.178.0
+          curl -sSfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.65.0
+      - name: Tests + scanners on PR heads, before/after, dashboard
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEVIN_API_KEY: ${{ secrets.DEVIN_API_KEY }}
+          DEVIN_ORG_ID: ${{ secrets.DEVIN_ORG_ID }}
+        run: make after
+      - uses: actions/upload-artifact@v4
+        with: { name: report, path: "report/", if-no-files-found: ignore }
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+      - name: Deploy /ops/
+        run: |
+          H="${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}"
+          scp -o StrictHostKeyChecking=accept-new -rq dashboard/ "$H:palmtree-appsec/"
+          ssh -o StrictHostKeyChecking=accept-new "$H" "cd palmtree-appsec/deploy && docker compose up -d --build ops && git checkout -q -- ../dashboard"
+          python3 -c "import json,urllib.request;d=json.load(urllib.request.urlopen('https://cognition.platformengineer.io/ops/data.json'));print('ops:',len(d['sessions']),'sessions, after_available =',d['after_available'])"

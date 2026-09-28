@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 PY := python3
 
-.PHONY: help preflight clone scan triage prompt kickoff status after dashboard ops-deploy reset baseline site-reset
+.PHONY: help preflight refresh clone scan triage prompt kickoff status after dashboard ops-deploy reset baseline site-reset
 
 help:
 	@echo "make clone      clone the 8 palmtree-* service repos next to this Makefile"
@@ -11,6 +11,7 @@ help:
 	@echo "make kickoff    start Devin sessions via API (ARGS='--all' | ARGS='--campaign dep:PyYAML' | ARGS='repo1 repo2')"
 	@echo "make status     open devin/* PRs across the repos"
 	@echo "make after      check out PR heads, rerun tests + scanners, build report/report.md and index.html"
+	@echo "make refresh    run 'after' in GitHub Actions and deploy /ops/ (no local toolchains needed; ~10 min)"
 	@echo "make dashboard  build dashboard/data.json (findings, campaigns, sessions, PRs) for the Remediation Command Center"
 	@echo "make ops-deploy scp dashboard/ to the demo VM and rebuild the ops container (DEPLOY=user@host)"
 	@echo "make reset      close devin PRs, delete devin branches, reset main to demo-baseline"
@@ -38,6 +39,9 @@ kickoff:
 
 status:
 	@for r in $(REPOS); do gh pr list --repo $(ORG)/$$r --state open 2>/dev/null | sed "s#^#$$r  #"; done
+
+refresh:
+	@gh workflow run refresh-ops.yml -R $(ORG)/palmtree-appsec && echo "started: https://github.com/$(ORG)/palmtree-appsec/actions/workflows/refresh-ops.yml"
 
 after:
 	@bash tools/after.sh
