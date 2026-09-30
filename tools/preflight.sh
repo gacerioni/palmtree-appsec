@@ -4,7 +4,7 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
-TAG="${1:-5.3.1-b9a66c9}"
+TAG="${1:-5.3.1-e972f71}"
 DOMAIN="${DOMAIN:-cognition.platformengineer.io}"
 ORG=$(python3 -c "import yaml;print(yaml.safe_load(open('repos.yaml'))['github_org'])")
 REPOS=$(python3 -c "import yaml;print(' '.join('palmtree-'+r['name'] for r in yaml.safe_load(open('repos.yaml'))['repos']))")

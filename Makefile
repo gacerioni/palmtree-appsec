@@ -17,7 +17,7 @@ help:
 	@echo "make ops-deploy scp dashboard/ to the demo VM and rebuild the ops container (DEPLOY=user@host)"
 	@echo "make reset      full baseline: repos (close devin PRs, main=demo-baseline) + site release + /ops/ (DEPLOY=user@host, default $(DEPLOY))"
 	@echo "make repos-reset only the 8 repos"
-	@echo "make site-reset  only the demo host release (TAG=5.3.1-b9a66c9)"
+	@echo "make site-reset  only the demo host release (TAG=5.3.1-e972f71)"
 	@echo "make preflight  check site, /ops/, PRs and release runs are at the clean baseline before a rehearsal/demo"
 	@echo "make baseline   tag current main of every repo as demo-baseline (do once)"
 
@@ -67,4 +67,4 @@ baseline:
 	@for r in $(REPOS); do git -C $$r tag -f demo-baseline main && git -C $$r push -q -f origin demo-baseline && echo "$$r: demo-baseline at $$(git -C $$r rev-parse --short main)"; done
 
 site-reset:
-	@ssh $(DEPLOY) "cd palmtree-appsec/deploy && git checkout -q -- ../dashboard && git pull -q && ./reset-site.sh $(or $(TAG),5.3.1-b9a66c9)"
+	@ssh $(DEPLOY) "cd palmtree-appsec/deploy && git checkout -q -- ../dashboard && git pull -q && ./reset-site.sh $(or $(TAG),5.3.1-e972f71)"

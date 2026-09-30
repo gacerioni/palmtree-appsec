@@ -32,7 +32,7 @@ Vocabulary: **reset** = everything back to baseline: 8 repos/PRs (`repos-reset`)
 | thing | baseline | how |
 |---|---|---|
 | 8 service repos, `main` | tag `demo-baseline` (156 findings, 24 critical, `security-gate` red) | `make reset` (or `make repos-reset` alone) |
-| https://cognition.platformengineer.io | `5.3.1-b9a66c9 · stable`, no canary | part of `make reset` (`make site-reset` alone) |
+| https://cognition.platformengineer.io | `5.3.1-e972f71 · stable`, no canary | part of `make reset` (`make site-reset` alone) |
 | /ops/ Command Center | baseline numbers, 0 sessions | part of `make reset` (`make ops-deploy` alone) |
 | Actions `release` | nothing waiting for approval | reject any pending `promote` |
 | Devin cloud | 8 repos indexed in Wiki; playbook `!palmtree_remediate` in the org | one-time setup, survives resets |
@@ -81,7 +81,7 @@ owner-portal-bff PR · owner-portal-bff Actions.
 
 | min | where | you do | you say (EN) |
 |---|---|---|---|
-| 0 | site | scroll once; footer `v5.3.1-b9a66c9 · stable` | "Owner portal of a fictional EV maker. Eight services behind it: Java, TypeScript, Python, Go. The company is fake; the CVEs are real." |
+| 0 | site | scroll once; footer `v5.3.1-e972f71 · stable` | "Owner portal of a fictional EV maker. Eight services behind it: Java, TypeScript, Python, Go. The company is fake; the CVEs are real." |
 | 1 | /ops/ | point at 156 / 24 / 29 campaigns | "Same CVE, many repos. Product Security triages this by hand today. The SLA is the CISO's, not the engineer's." |
 | 2 | Devin Wiki | open the wiki of one service; Ask: *"Where is YAML parsed across the Palm Tree repos, and which of those repos have no tests?"* | "Before Devin touches code it already knows the estate. This is the same answer a new hire takes two weeks to find." |
 | 4 | Devin Playbooks | open `Palm Tree appsec — remediate one campaign`; scroll the Forbidden Actions | "One playbook, written once. Scope, evidence, and what it must refuse to do." |
@@ -108,7 +108,7 @@ Reject any `promote` still waiting in Actions. Wikis and the playbook stay.
 ## Things that bite
 
 * `make repos-reset` force-pushes the 8 `main`s to `demo-baseline`; it does not trigger `release` (same commit as last push).
-* `make baseline` re-tags; only after a deliberate change to a repo's main. Last: owner-portal-bff at `b9a66c9` (site + release workflow + release pill).
+* `make baseline` re-tags; only after a deliberate change to a repo's main. Last: owner-portal-bff at `e972f71` (Lucid-style site, PR #6 merged 2026-09-30).
 * GHCR package is private: the VM is `docker login`ed. If that expires, `canary.sh` fails closed at pull; site stays 100% stable.
 * Required reviewer on `production` is gacerioni; approve from the run page or the GitHub mobile app.
 * Wiki indexing after `make repos-reset` is a no-op (same tree). Adding a repo to the wiki live takes minutes: do it only as a gesture, never wait for it.
